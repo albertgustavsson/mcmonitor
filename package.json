@@ -1,0 +1,16 @@
+{
+  "name": "mcmonitor",
+  "version": "1.0.0",
+  "description": "A Discord bot that monitors a minecraft server",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Albert Gustavsson",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "dotenv": "^10.0.0"
+  }
+}
