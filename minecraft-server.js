@@ -16,6 +16,7 @@ export class MinecraftServer {
             let connection = net.createConnection({
                 host: this.host,
                 port: this.port,
+                timeout: 5000,
             });
             
             connection.on('error', (error) => {
@@ -27,7 +28,7 @@ export class MinecraftServer {
                 // console.log(`${getTimeOfDay()} connection closing`);
             });
 
-            connection.on('connect', () => {      
+            connection.on('connect', () => {   
                 // console.log(`${getTimeOfDay()} connection established`);
                 let handshakePacket = new MinecraftPacket(0);
                 handshakePacket.writeVarInt(-1);
@@ -78,6 +79,13 @@ export class MinecraftServer {
                 } else {
                     // console.log(`${getTimeOfDay()} Still waiting for more data. ${data.length} / ${packetLength}`);
                 }
+            });
+
+            connection.on('timeout', () => {
+                connection.destroy();
+                let error = new Error('Server timed out');
+                error.code = 'ETIMEDOUT';
+                reject(error);
             });
         });
     }
